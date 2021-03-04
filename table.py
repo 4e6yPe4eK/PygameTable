@@ -112,11 +112,11 @@ class Table:
 
     def scroll(self, ev: pygame.event.Event):
         if ev.type == pygame.MOUSEBUTTONDOWN:
-            if self.scroll_arrow_up.rect.collidepoint(event.pos):
+            if self.scroll_arrow_up.rect.collidepoint(ev.pos):
                 self.is_down = True
-            if self.scroll_arrow_down.rect.collidepoint(event.pos):
+            if self.scroll_arrow_down.rect.collidepoint(ev.pos):
                 self.is_up = True
-            if self.scroll_box.rect.collidepoint(event.pos):
+            if self.scroll_box.rect.collidepoint(ev.pos):
                 self.is_scroll = True
                 self.scroll_y = ev.pos[1]
         if ev.type == pygame.MOUSEMOTION and self.is_scroll:
