@@ -1,5 +1,5 @@
 import pygame
-from tabler import Table
+from table import Table
 pygame.init()
 screen = pygame.display.set_mode((1155, 650))
 pygame.display.set_caption("Таблица")
