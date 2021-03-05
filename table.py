@@ -12,6 +12,7 @@ class Table:
         self.is_down = False
         self.is_up = False
         self.data_y = 0
+        self.max_y = 1
         self.row_sizes = []
         self.column_sizes = []
         self.data = []
@@ -20,8 +21,6 @@ class Table:
         self.scroll_arrow_up = pygame.sprite.Sprite(self.draw_group)
         self.scroll_arrow_down = pygame.sprite.Sprite(self.draw_group)
         self.scroll_box = pygame.sprite.Sprite(self.draw_group)
-
-
 
     def load_sprites(self):
         self.scroll_area.image = pygame.Surface((16, self.rect.height))
@@ -72,7 +71,11 @@ class Table:
                 surface.blit(string, (x + width, y + width))
                 x += self.column_sizes[col]
             y += self.row_sizes[row]
-        self.draw_group.draw(surface)
+        if self.max_y > self.rect.height:
+            self.draw_group.draw(surface)
+        else:
+            surface.fill((193, 40, 52), (self.rect.width - 16, 0, 16, self.rect.height))
+            surface.set_colorkey((193, 40, 52))
         screen.blit(surface, self.rect.topleft)
 
     def move(self, x, y):
@@ -112,11 +115,11 @@ class Table:
 
     def scroll(self, ev: pygame.event.Event):
         if ev.type == pygame.MOUSEBUTTONDOWN:
-            if self.scroll_arrow_up.rect.collidepoint(ev.pos):
+            if self.scroll_arrow_up.rect.collidepoint((ev.pos[0] - self.rect.x, ev.pos[1] - self.rect.y)):
                 self.is_down = True
-            if self.scroll_arrow_down.rect.collidepoint(ev.pos):
+            if self.scroll_arrow_down.rect.collidepoint((ev.pos[0] - self.rect.x, ev.pos[1] - self.rect.y)):
                 self.is_up = True
-            if self.scroll_box.rect.collidepoint(ev.pos):
+            if self.scroll_box.rect.collidepoint((ev.pos[0] - self.rect.x, ev.pos[1] - self.rect.y)):
                 self.is_scroll = True
                 self.scroll_y = ev.pos[1]
         if ev.type == pygame.MOUSEMOTION and self.is_scroll:
